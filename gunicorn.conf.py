@@ -1,0 +1,9 @@
+workers = 3
+worker_class = "sync"
+threads = 2
+keepalive = 120
+max_requests = 1000
+max_requests_jitter = 50
+accesslog = "-"
+errorlog = "-"
+loglevel = "info"

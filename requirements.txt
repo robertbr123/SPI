@@ -1,0 +1,15 @@
+asgiref==3.10.0
+charset-normalizer==3.4.4
+crispy-bootstrap5==2025.6
+Django==4.2.25
+django-crispy-forms==2.4
+django-localflavor==5.0
+pillow==11.3.0
+python-stdnum==2.1
+qrcode==8.2
+reportlab==4.4.4
+sqlparse==0.5.3
+typing_extensions==4.15.0
+gunicorn==21.2.0
+dj-database-url==2.3.0
+psycopg2-binary==2.9.10

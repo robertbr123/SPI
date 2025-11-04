@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Ficha do Pescador - {{ pescador.nome }}{% endblock %}
+{% block content %}
+<style>
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; }
+  .card { box-shadow: none !important; }
+}
+.ficha-header { border-bottom: 2px solid #0d6efd; margin-bottom: 1rem; padding-bottom: .5rem; }
+.ficha-section h2 { font-size: 1rem; color: #0d6efd; text-transform: uppercase; margin-top: 1rem; }
+.ficha-table dt { width: 180px; }
+</style>
+<div class="d-flex justify-content-between align-items-center no-print">
+  <a class="btn btn-outline-secondary" href="{% url 'associados:pescador_detail' pescador.pk %}">Voltar</a>
+  <div class="d-flex gap-2">
+    <button class="btn btn-outline-primary" onclick="window.print()">Imprimir</button>
+  </div>
+</div>
+<div class="card mt-3">
+  <div class="card-body">
+    <div class="ficha-header d-flex justify-content-between">
+      <div>
+        <h1 class="h5 m-0">Ficha do Pescador</h1>
+        <small class="text-muted">Emitido em {{ now|date:'d/m/Y H:i' }}</small>
+      </div>
+      <div class="text-end">
+        <strong>{{ pescador.nome }}</strong><br>
+        CPF: {{ pescador.cpf }} | RGP: {{ pescador.rgp }}
+      </div>
+    </div>
+    <div class="ficha-section">
+      <h2>Dados Pessoais</h2>
+      <dl class="row ficha-table">
+        <dt class="col-sm-3">Nome</dt><dd class="col-sm-9">{{ pescador.nome }}</dd>
+        <dt class="col-sm-3">CPF</dt><dd class="col-sm-9">{{ pescador.cpf }}</dd>
+        <dt class="col-sm-3">Data de Nascimento</dt><dd class="col-sm-9">{{ pescador.data_nascimento|date:'d/m/Y' }}</dd>
+        <dt class="col-sm-3">RGP</dt><dd class="col-sm-9">{{ pescador.rgp }}</dd>
+        <dt class="col-sm-3">Telefone</dt><dd class="col-sm-9">{{ pescador.telefone }}</dd>
+        <dt class="col-sm-3">Seguro Defeso pedido</dt><dd class="col-sm-9">{% if pescador.seguro_defeso_pedido %}Sim{% else %}Não{% endif %}</dd>
+        <dt class="col-sm-3">Data de Associação</dt><dd class="col-sm-9">{{ pescador.data_associacao|date:'d/m/Y' }}</dd>
+      </dl>
+    </div>
+    {% if pescador.endereco %}
+    <div class="ficha-section">
+      <h2>Endereço</h2>
+      <p class="mb-0">{{ pescador.endereco.logradouro }}, {{ pescador.endereco.numero }} {{ pescador.endereco.complemento }}<br>
+      {{ pescador.endereco.bairro }} - {{ pescador.endereco.cidade }}/{{ pescador.endereco.estado }} - {{ pescador.endereco.cep }}</p>
+    </div>
+    {% endif %}
+    <div class="ficha-section">
+      <h2>Documentos</h2>
+      <table class="table table-sm">
+        <thead><tr><th>Tipo</th><th>Observação</th><th>Data</th></tr></thead>
+        <tbody>
+          {% for d in pescador.documentos.all %}
+          <tr><td>{{ d.get_tipo_display }}</td><td>{{ d.observacao }}</td><td>{{ d.data_upload|date:'d/m/Y H:i' }}</td></tr>
+          {% empty %}
+          <tr><td colspan="3" class="text-muted text-center">Nenhum documento enviado.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="ficha-section">
+      <h2>Mensalidades</h2>
+      <table class="table table-sm">
+        <thead><tr><th>Competência</th><th>Valor</th><th>Status</th><th>Pagamento</th></tr></thead>
+        <tbody>
+          {% for m in pescador.mensalidades.all %}
+          <tr>
+            <td>{{ m.competencia|date:'m/Y' }}</td>
+            <td>R$ {{ m.valor }}</td>
+            <td>{{ m.get_status_display }}</td>
+            <td>{% if m.data_pagamento %}{{ m.data_pagamento|date:'d/m/Y' }}{% else %}-{% endif %}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="text-muted text-center">Nenhuma mensalidade registrada.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

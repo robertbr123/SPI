@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Pescadores - SPI{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 m-0">Pescadores</h1>
+  <a class="btn btn-primary" href="{% url 'associados:pescador_create' %}">Novo Pescador</a>
+</div>
+<form method="get" class="mb-3">
+  <div class="input-group">
+    <input type="text" name="q" class="form-control" placeholder="Buscar por nome, CPF ou RGP" value="{{ request.GET.q }}">
+    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+  </div>
+</form>
+<div class="card">
+  <div class="card-body p-0">
+    <table class="table table-hover align-middle m-0">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>CPF</th>
+          <th>RGP</th>
+          <th>Telefone</th>
+          <th>Assoc.</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in pescadores %}
+        <tr>
+          <td>{{ p.nome }}</td>
+          <td>{{ p.cpf }}</td>
+          <td>{{ p.rgp }}</td>
+          <td>{{ p.telefone }}</td>
+          <td>{{ p.data_associacao|date:'d/m/Y' }}</td>
+          <td class="text-end">
+            <a class="btn btn-sm btn-outline-primary" href="{% url 'associados:pescador_detail' p.pk %}">Abrir</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="text-center py-4">Nenhum pescador encontrado.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
