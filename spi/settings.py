@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-ft8angyx36$b8d8x2ysqi=2_yk^1aux@r8w!r2l-p#$u4lhlcm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', '1') == '1'
 
-ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',') if h.strip()]
+ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', '192.169.100.66,127.0.0.1,localhost').split(',') if h.strip()]
 
 
 # Application definition
@@ -153,4 +153,4 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 DEFAULT_MENSALIDADE = 25.00
 
 # CSRF: confiar em origens (ler de env, separadas por vírgula)
-CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.getenv('CSRF_TRUSTED_ORIGINS', 'http://127.0.0.1:8000,http://localhost:8000').split(',') if o.strip()]
+CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.getenv('CSRF_TRUSTED_ORIGINS', 'http://192.169.100.66:8000,http://127.0.0.1:8000,http://localhost:8000').split(',') if o.strip()]
